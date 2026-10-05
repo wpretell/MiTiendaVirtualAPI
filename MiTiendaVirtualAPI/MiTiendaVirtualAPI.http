@@ -1,0 +1,6 @@
+@MiTiendaVirtualAPI_HostAddress = http://localhost:5151
+
+GET {{MiTiendaVirtualAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
