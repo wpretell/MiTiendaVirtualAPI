@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using MiTiendaVirtualAPI.DTOs;
 using MiTiendaVirtualAPI.Models;
 
 
@@ -59,9 +59,17 @@ namespace MiTiendaVirtualAPI.Controllers
         public IActionResult Producto(int id)
         {
             var producto = BD.Producto
-                .Include(p => p.IdCategoriaNavigation)
-                .Include(p => p.IdMarcaNavigation)
-                .FirstOrDefault(p => p.Id == id);
+                .Where(p => p.Id == id)
+                .Select(p => new ProductoDto
+                {
+                    Id = p.Id,
+                    Nombre = p.Nombre,
+                    IdCategoria = p.IdCategoria,
+                    Categoria = p.IdCategoriaNavigation.Nombre,
+                    IdMarca = p.IdMarca,
+                    Marca = p.IdMarcaNavigation.Nombre
+                })
+                .FirstOrDefault();
 
             if (producto == null)
                 return NotFound();
